@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique @db.VarChar(256)
+  name      String
+  companyId String?  @map("company_id")
+  isBanned  Boolean  @default(false) @map("is_banned")
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  company  Company?  @relation(fields: [companyId], references: [id])
+  issues   Issue[]
+  votes    Vote[]
+  comments Comment[]
+
+  @@map("users")
+}
+
+model ExternalAuthor {
+  id          String   @id @default(cuid())
+  email       String
+  name        String
+  companyName String   @map("company_name")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  issues Issue[]
+  votes  Vote[]
+
+  @@map("external_authors")
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  boards           Board[]
+  users            User[]
+  slackWebhookUrls SlackWebhookUrl[]
+
+  @@map("companies")
+}
+
+model Board {
+  id        String   @id @default(cuid())
+  name      String
+  companyId String   @map("company_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  company Company @relation(fields: [companyId], references: [id])
+  issues  Issue[]
+
+  @@map("boards")
+}
+
+model Issue {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  status      IssueStatus
+  genre       IssueGenre
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id])
+
+  // Optional references
+  authorId         String?         @map("author_id")
+  author           User?           @relation(fields: [authorId], references: [id])
+  externalAuthorId String?         @map("external_author_id")
+  externalAuthor   ExternalAuthor? @relation(fields: [externalAuthorId], references: [id])
+
+  votes    Vote[]
+  comments Comment[]
+
+  @@map("issues")
+}
+
+enum IssueStatus {
+  BACKLOG
+  IN_PROGRESS
+  DONE
+}
+
+enum IssueGenre {
+  FEATURE_REQUEST
+  BUG_FIX
+  OTHER
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  issueId   String   @map("issue_id")
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  // Optional references
+  user             User?           @relation(fields: [userId], references: [id])
+  userId           String?         @map("user_id")
+  externalAuthorId String?         @map("external_author_id")
+  externalAuthor   ExternalAuthor? @relation(fields: [externalAuthorId], references: [id])
+
+  @@map("votes")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  issueId   String   @map("issue_id")
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@map("comments")
+}
+
+model SlackWebhookUrl {
+  id        String   @id @default(cuid())
+  url       String
+  companyId String   @map("company_id")
+  company   Company  @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@map("slack_webhook_urls")
+}
