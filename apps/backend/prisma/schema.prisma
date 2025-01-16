@@ -11,19 +11,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique @db.VarChar(256)
+  id        String    @id @default(cuid())
+  email     String    @unique @db.VarChar(256)
+  uid       String    @unique @db.VarChar(256)
   name      String
-  companyId String?  @map("company_id")
-  isBanned  Boolean  @default(false) @map("is_banned")
-  isDeleted Boolean  @default(false) @map("is_deleted")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
-
-  company  Company?  @relation(fields: [companyId], references: [id])
-  issues   Issue[]
-  votes    Vote[]
-  comments Comment[]
+  companyId String?   @map("company_id")
+  company   Company?  @relation(fields: [companyId], references: [id])
+  isBanned  Boolean   @default(false) @map("is_banned")
+  isDeleted Boolean   @default(false) @map("is_deleted")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  issues    Issue[]
+  votes     Vote[]
+  comments  Comment[]
 
   @@map("users")
 }
@@ -31,8 +31,10 @@ model User {
 model ExternalAuthor {
   id          String   @id @default(cuid())
   email       String
-  name        String
-  companyName String   @map("company_name")
+  name        String?
+  companyName String?  @map("company_name")
+  isBanned    Boolean  @default(false) @map("is_banned")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
 
@@ -56,11 +58,12 @@ model Company {
 }
 
 model Board {
-  id        String   @id @default(cuid())
-  name      String
-  companyId String   @map("company_id")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  companyId   String   @map("company_id")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
 
   company Company @relation(fields: [companyId], references: [id])
   issues  Issue[]

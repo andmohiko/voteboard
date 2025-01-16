@@ -1,5 +1,5 @@
 {
-  "extends": "@next-hono-monorepo/ts-config/base.json",
+  "extends": "@voteboard/ts-config/base.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node"

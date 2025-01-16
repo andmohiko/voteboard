@@ -1,5 +1,5 @@
 {
-  "name": "@next-hono-monorepo/common",
+  "name": "@voteboard/common",
   "type": "module",
   "private": true,
   "main": "./dist/index.cjs",
@@ -17,8 +17,8 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@next-hono-monorepo/eslint-config": "workspace:*",
-    "@next-hono-monorepo/ts-config": "workspace:*",
+    "@voteboard/eslint-config": "workspace:*",
+    "@voteboard/ts-config": "workspace:*",
     "@types/node": "^20.12.7",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3"

@@ -1,4 +1,4 @@
-import custom from '@next-hono-monorepo/eslint-config'
+import custom from '@voteboard/eslint-config'
 import tseslint from 'typescript-eslint'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import reactPlugin from 'eslint-plugin-react'

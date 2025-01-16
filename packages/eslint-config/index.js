@@ -79,6 +79,7 @@ module.exports = tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       // 詳細: https://typescript-eslint.io/rules/consistent-type-definitions/
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       // 詳細: @typescript-eslint/naming-convention

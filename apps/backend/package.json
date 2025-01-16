@@ -1,5 +1,5 @@
 {
-  "name": "@next-hono-monorepo/backend",
+  "name": "@voteboard/backend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,15 +20,15 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.5",
-    "@next-hono-monorepo/common": "workspace:*",
+    "@voteboard/common": "workspace:*",
     "@prisma/client": "6.2.1",
     "hono": "^4.6.16",
     "tsc-alias": "^1.8.8",
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@next-hono-monorepo/eslint-config": "workspace:*",
-    "@next-hono-monorepo/ts-config": "workspace:*",
+    "@voteboard/eslint-config": "workspace:*",
+    "@voteboard/ts-config": "workspace:*",
     "@types/node": "^20.11.17",
     "prisma": "^6.2.1",
     "tsx": "^4.19.2",

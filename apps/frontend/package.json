@@ -1,5 +1,5 @@
 {
-  "name": "@next-hono-monorepo/frontend",
+  "name": "@voteboard/frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,14 +14,14 @@
     "format:prettier": "prettier --write src"
   },
   "dependencies": {
-    "@next-hono-monorepo/common": "workspace:*",
+    "@voteboard/common": "workspace:*",
     "next": "15.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "@next-hono-monorepo/eslint-config": "workspace:*",
-    "@next-hono-monorepo/ts-config": "workspace:*",
+    "@voteboard/eslint-config": "workspace:*",
+    "@voteboard/ts-config": "workspace:*",
     "@next/eslint-plugin-next": "^15.1.4",
     "@types/node": "^20.12.7",
     "@types/react": "19.0.7",

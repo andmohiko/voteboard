@@ -8,4 +8,4 @@ up: ## ローカルでコンテナを起動する
 
 .PHONY: connect-db
 connect-db: ## ローカルでデータベースに接続する
-	docker compose exec -it next-hono-monorepo_database psql -U postgres next-hono-monorepo_database
+	docker compose exec -it voteboard_database psql -U postgres voteboard_database

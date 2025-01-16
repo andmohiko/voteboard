@@ -1,13 +1,9 @@
 {
-  "extends": "@next-hono-monorepo/ts-config/base.json",
+  "extends": "@voteboard/ts-config/base.json",
   "compilerOptions": {
     "baseUrl": "./",
     "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,9 +21,7 @@
       }
     ],
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     },
     "incremental": true
   },
@@ -38,7 +32,5 @@
     "apps/frontend/next-env.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

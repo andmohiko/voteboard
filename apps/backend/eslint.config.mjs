@@ -1,5 +1,5 @@
 import tseslint from 'typescript-eslint'
-import custom from '@next-hono-monorepo/eslint-config'
+import custom from '@voteboard/eslint-config'
 
 export default tseslint.config(...custom, {
   ignores: ['eslint.config.mjs'],
