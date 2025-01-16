@@ -4,12 +4,13 @@ export type Board = {
   id: string
   title: string
   description: string
+  isArchived: boolean
   companyId: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
-export type BoardWithIssuesWiteVoteCount = Board & {
+export type BoardWithIssuesWithVoteCount = Board & {
   issues: Array<IssueWithVoteCount>
 }
 

@@ -3,6 +3,7 @@ export type Comment = {
   content: string
   issueId: string
   userId: string
+  isDeleted: boolean
   createdAt: string
   updatedAt: string
 }

@@ -15,11 +15,12 @@ export type Issue = {
   description: string
   status: IssueStatus
   genre: IssueGenre
+  isDeleted: boolean
   createdAt: string
   updatedAt: string
   boardId: string
-  authorId?: string
-  externalAuthorId?: string
+  authorId: string | null
+  externalAuthorId: string | null
 }
 
 export type IssueWithVoteCount = Issue & {
