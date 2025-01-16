@@ -3,6 +3,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
 import type { CustomContext, CustomEnv } from '~/types/locals'
+import { userRouter } from '~/routes/userRouter'
 
 const port = 4000
 const app = new Hono<CustomEnv>()
@@ -17,6 +18,8 @@ if (process.env.NODE_ENV === 'localhost') {
   // eslint-disable-next-line no-console
   console.log(`Server is running on port ${port}`)
 }
+
+app.route('/users', userRouter)
 
 app.onError((e, c: CustomContext) => {
   console.error('Error:', e)
