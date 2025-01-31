@@ -3,6 +3,6 @@ export type Vote = {
   issueId: string
   createdAt: string
   updatedAt: string
-  userId?: string
-  externalAuthorId?: string
+  userId?: string | null
+  externalAuthorId?: string | null
 }

@@ -23,7 +23,11 @@ export const createIssueOperation = async (
       description: params.description,
       status: params.status,
       genre: params.genre,
-      boardId: params.boardId,
+      board: {
+        connect: {
+          id: params.boardId,
+        },
+      },
     },
   })
   const issue: Issue = {
