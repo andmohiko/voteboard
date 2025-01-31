@@ -9,6 +9,14 @@ import {
   updateBoardOperation,
   updateBoardParamsSchema,
 } from '~/features/board/operations/updateBoardOperation'
+import {
+  createIssueOperation,
+  createIssueParamsSchema,
+} from '~/features/issue/operations/createIssueOperation'
+import {
+  updateIssueOperation,
+  updateIssueParamsSchema,
+} from '~/features/issue/operations/updateIssueOperation'
 import type { CustomContext, CustomEnv } from '~/types/locals'
 
 const boardRouter = new Hono<CustomEnv>()
@@ -55,6 +63,50 @@ boardRouter.put('/:id', async (c: CustomContext) => {
   const board = await updateBoardOperation(result.data)
 
   return c.json(board)
+})
+
+boardRouter.post('/:id/issue', async (c: CustomContext) => {
+  const id = c.req.param('id')
+  const body = await c.req.json()
+  const result = createIssueParamsSchema.safeParse({
+    ...body,
+    boardId: id,
+  })
+
+  if (!result.success) {
+    return c.json(result.error, 400)
+  }
+
+  const issue = await createIssueOperation(result.data)
+
+  return c.json(issue)
+})
+
+boardRouter.put('/:id/issue/:issueId', async (c: CustomContext) => {
+  const issueId = c.req.param('issueId')
+  const body = await c.req.json()
+  const result = updateIssueParamsSchema.safeParse({
+    ...body,
+    id: issueId,
+  })
+
+  if (!result.success) {
+    return c.json(result.error, 400)
+  }
+
+  const issue = await updateIssueOperation(result.data)
+
+  return c.json(issue)
+})
+
+boardRouter.delete('/:id/issue/:issueId', async (c: CustomContext) => {
+  const issueId = c.req.param('issueId')
+  const issue = await updateIssueOperation({
+    id: issueId,
+    isDeleted: true,
+  })
+
+  return c.json(issue)
 })
 
 export { boardRouter }

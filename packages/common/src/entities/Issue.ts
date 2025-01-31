@@ -3,11 +3,11 @@ import { z } from 'zod'
 import type { Comment } from './Comment'
 import type { Vote } from './Vote'
 
-export const IssueStatusSchema = z.enum(['BACKLOG', 'IN_PROGRESS', 'DONE'])
-export type IssueStatus = z.infer<typeof IssueStatusSchema>
+export const issueStatusSchema = z.enum(['BACKLOG', 'IN_PROGRESS', 'DONE'])
+export type IssueStatus = z.infer<typeof issueStatusSchema>
 
-export const IssueGenreSchema = z.enum(['FEATURE_REQUEST', 'BUG_FIX', 'OTHER'])
-export type IssueGenre = z.infer<typeof IssueGenreSchema>
+export const issueGenreSchema = z.enum(['FEATURE_REQUEST', 'BUG_FIX', 'OTHER'])
+export type IssueGenre = z.infer<typeof issueGenreSchema>
 
 export type Issue = {
   id: string
