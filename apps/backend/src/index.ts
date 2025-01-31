@@ -6,6 +6,7 @@ import type { CustomContext, CustomEnv } from '~/types/locals'
 import { userRouter } from '~/routes/userRouter'
 import { boardRouter } from '~/routes/boardRouter'
 import { issueRouter } from '~/routes/issueRouter'
+import { companyRouter } from '~/routes/companyRouter'
 
 const port = 4000
 const app = new Hono<CustomEnv>()
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'localhost') {
 app.route('/users', userRouter)
 app.route('/boards', boardRouter)
 app.route('/issues', issueRouter)
+app.route('/companies', companyRouter)
 
 app.onError((e, c: CustomContext) => {
   console.error('Error:', e)

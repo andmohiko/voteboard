@@ -1,4 +1,5 @@
 export * from './Board'
+export * from './Company'
 export * from './Comment'
 export * from './ExternalAuthor'
 export * from './Issue'
