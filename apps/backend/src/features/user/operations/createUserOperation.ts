@@ -20,7 +20,13 @@ export const createUserOperation = async (
       uid: params.uid,
       email: params.email,
       name: params.name,
-      companyId: params.companyId,
+      company: params.companyId
+        ? {
+            connect: {
+              id: params.companyId,
+            },
+          }
+        : {},
     },
   })
   const user: User = {

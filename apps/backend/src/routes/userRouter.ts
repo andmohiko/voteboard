@@ -36,11 +36,10 @@ userRouter.get('/:id', async (c: CustomContext) => {
 })
 
 userRouter.post('/', async (c: CustomContext) => {
-  const uid = 'sampleUid'
   const body = await c.req.json()
   const result = createUserParamsSchema.safeParse({
     ...body,
-    uid,
+    companyId: process.env.COMPANY_ID!,
   })
 
   if (!result.success) {
