@@ -31,7 +31,6 @@ export const DefaultLayout = ({ children }: Props): ReactNode => {
           align="flex-start"
           style={{
             position: 'relative',
-            border: '2px solid blue',
           }}
         >
           {isLoading && <LoadingContentOverlay />}
