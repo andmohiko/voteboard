@@ -23,6 +23,7 @@ export const SignUpForm = (): React.ReactNode => {
     formState: { errors, isSubmitting, isValid },
   } = useForm<SignUpInputType>({
     resolver: zodResolver(signUpSchema),
+    mode: 'all',
     defaultValues: {
       email: '',
       password: '',
@@ -30,7 +31,7 @@ export const SignUpForm = (): React.ReactNode => {
     },
   })
 
-  const submit = async (data: SignUpInputType) => {
+  const onSubmit = async (data: SignUpInputType) => {
     try {
       startLoading()
       if (data.password !== data.confirmPassword) {
@@ -47,7 +48,7 @@ export const SignUpForm = (): React.ReactNode => {
   }
 
   return (
-    <form onSubmit={handleSubmit(submit)} className={styles.loginForm}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.loginForm}>
       <FlexBox gap={32}>
         <TextInput
           label="メールアドレス"
