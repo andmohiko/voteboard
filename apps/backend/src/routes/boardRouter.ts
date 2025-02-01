@@ -5,6 +5,7 @@ import {
   createBoardParamsSchema,
 } from '~/features/board/operations/createBoardOperation'
 import { findBoardByIdOperation } from '~/features/board/operations/findBoardByIdOperation'
+import { findBoardsByCompanyIdOperation } from '~/features/board/operations/findBoardsByCompanyIdOperation'
 import {
   updateBoardOperation,
   updateBoardParamsSchema,
@@ -20,6 +21,13 @@ import {
 import type { CustomContext, CustomEnv } from '~/types/locals'
 
 const boardRouter = new Hono<CustomEnv>()
+
+boardRouter.get('/', async (c: CustomContext) => {
+  const boards = await findBoardsByCompanyIdOperation({
+    companyId: process.env.COMPANY_ID!,
+  })
+  return c.json(boards)
+})
 
 boardRouter.get('/:id', async (c: CustomContext) => {
   const id = c.req.param('id')

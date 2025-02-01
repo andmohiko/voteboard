@@ -23,12 +23,14 @@
     "@mantine/notifications": "^7.16.2",
     "@supabase/supabase-js": "^2.48.1",
     "@voteboard/common": "workspace:*",
+    "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
     "next": "15.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
+    "swr": "^2.3.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

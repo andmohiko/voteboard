@@ -10,7 +10,6 @@ export const useSignUp = () => {
 
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({ email, password })
-    console.log('data', data, error)
 
     if (error) {
       if (error.message.includes('User already registered')) {
