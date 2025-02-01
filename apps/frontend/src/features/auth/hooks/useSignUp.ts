@@ -10,8 +10,12 @@ export const useSignUp = () => {
 
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({ email, password })
+    console.log('data', data, error)
 
     if (error) {
+      if (error.message.includes('User already registered')) {
+        throw new Error('このメールアドレスはすでに登録されています')
+      }
       throw new Error(error.message)
     }
 
@@ -36,7 +40,7 @@ export const useSignUp = () => {
       throw new Error('ユーザー登録に失敗しました')
     }
 
-    await push('/')
+    await push('/confirm_email')
   }
 
   return {
