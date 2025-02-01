@@ -23,6 +23,7 @@
     "openapi",
     "predeploy",
     "psql",
+    "supabase",
     "tseslint",
     "Turborepo",
     "vercel",

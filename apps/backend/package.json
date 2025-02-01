@@ -20,16 +20,17 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.5",
-    "@voteboard/common": "workspace:*",
     "@prisma/client": "6.2.1",
+    "@supabase/supabase-js": "^2.48.1",
+    "@voteboard/common": "workspace:*",
     "hono": "^4.6.16",
     "tsc-alias": "^1.8.8",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/node": "^20.11.17",
     "@voteboard/eslint-config": "workspace:*",
     "@voteboard/ts-config": "workspace:*",
-    "@types/node": "^20.11.17",
     "prisma": "^6.2.1",
     "tsx": "^4.19.2",
     "typescript": "5.7.3"
