@@ -14,18 +14,25 @@
     "format:prettier": "prettier --write src"
   },
   "dependencies": {
+    "@mantine/core": "^7.16.2",
+    "@mantine/dates": "^7.16.2",
+    "@mantine/dropzone": "^7.16.2",
+    "@mantine/hooks": "^7.16.2",
+    "@mantine/modals": "^7.16.2",
+    "@mantine/notifications": "^7.16.2",
     "@voteboard/common": "workspace:*",
+    "dayjs": "^1.11.13",
     "next": "15.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "@voteboard/eslint-config": "workspace:*",
-    "@voteboard/ts-config": "workspace:*",
     "@next/eslint-plugin-next": "^15.1.4",
     "@types/node": "^20.12.7",
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
+    "@voteboard/eslint-config": "workspace:*",
+    "@voteboard/ts-config": "workspace:*",
     "eslint-config-next": "^15.1.4",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.37.4",
