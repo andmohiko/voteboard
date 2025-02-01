@@ -96,6 +96,9 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
+      react-icons:
+        specifier: ^5.4.0
+        version: 5.4.0(react@19.0.0)
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: ^15.1.4
@@ -4721,6 +4724,14 @@ packages:
       react: '>= 16.8 || 18.0.0'
     dependencies:
       prop-types: 15.8.1
+      react: 19.0.0
+    dev: false
+
+  /react-icons@5.4.0(react@19.0.0):
+    resolution: {integrity: sha512-7eltJxgVt7X64oHh6wSWNwwbKTCtMfK35hcjvJS0yxEAhPM8oUKdS3+kqaW1vicIltw+kR2unHaa12S9pPALoQ==}
+    peerDependencies:
+      react: '*'
+    dependencies:
       react: 19.0.0
     dev: false
 

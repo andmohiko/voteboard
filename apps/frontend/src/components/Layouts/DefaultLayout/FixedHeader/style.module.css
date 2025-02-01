@@ -1,0 +1,50 @@
+.menuItem {
+  padding: 16px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  border-radius: 6px;
+
+  color: #2d3748;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #eb335f;
+    color: #ffffff;
+  }
+}
+
+.title {
+  margin-left: 8px;
+  font-size: 28px;
+  font-weight: bold;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+}
+
+.email {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-text-black);
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.login {
+  font-size: 14px;
+  color: var(--color-text-black);
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+}

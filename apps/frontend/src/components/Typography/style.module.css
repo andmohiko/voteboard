@@ -1,0 +1,32 @@
+.baseText {
+  font-size: 14px;
+}
+
+._black {
+  color: var(--color-text-black);
+}
+
+._white {
+  color: var(--color-base-white);
+}
+
+._gray {
+  color: var(--color-text-gray);
+}
+
+.resultText {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+._WIN {
+  color: #ff0000;
+}
+
+._LOSE {
+  color: #ff00ff;
+}
+
+._DRAW {
+  color: #00ff00;
+}

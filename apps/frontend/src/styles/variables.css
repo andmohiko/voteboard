@@ -1,0 +1,30 @@
+:root {
+  /* Brand Colors */
+  --color-primary: #323232;
+  --color-bg-white: #ffffff;
+  --color-text-black: #323232;
+  --color-text-gray: #4a5568;
+
+  /* Background Colors */
+  --color-bg-primary: rgb(250, 220, 240);
+
+  /* Base Colors */
+  --color-base-black: #323232;
+  --color-base-white: #ffffff;
+  --color-base-gray: #868e96;
+
+  /* Gray shades */
+  --color-gray50: #f7fafc;
+  --color-gray100: #edf2f7;
+  --color-gray200: #e2e8f0;
+  --color-gray300: #cbd5e0;
+  --color-gray400: #a0aec0;
+  --color-gray500: #718096;
+  --color-gray600: #4a5568;
+  --color-gray700: #2d3748;
+  --color-gray800: #1a202c;
+  --color-gray900: #171923;
+
+  /* Functional Colors */
+  --color-description: #868e96;
+}
