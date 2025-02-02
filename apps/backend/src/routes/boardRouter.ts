@@ -40,11 +40,10 @@ boardRouter.get('/:id', async (c: CustomContext) => {
 })
 
 boardRouter.post('/', async (c: CustomContext) => {
-  const companyId = '1'
   const body = await c.req.json()
   const result = createBoardParamsSchema.safeParse({
     ...body,
-    companyId,
+    companyId: process.env.COMPANY_ID!,
   })
 
   if (!result.success) {

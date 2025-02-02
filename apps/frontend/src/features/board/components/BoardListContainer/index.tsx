@@ -1,3 +1,4 @@
+import { useDisclosure } from '@mantine/hooks'
 import { MdAddCircleOutline } from 'react-icons/md'
 
 import { FlexBox } from '~/components/Base/FlexBox'
@@ -6,8 +7,10 @@ import { DefaultLayout } from '~/components/Layouts/DefaultLayout'
 import { TitleText } from '~/components/Typography/TitleText'
 import { BoardsTable } from '~/features/board/components/BoardsTable'
 import { useBoards } from '~/features/board/hooks/useBoards'
+import { EditBoardModal } from '~/features/board/components/EditBoardModal'
 
 export const BoardListContainer = (): React.ReactNode => {
+  const [isOpen, handlers] = useDisclosure()
   const [boards, isLoading] = useBoards()
   return (
     <DefaultLayout>
@@ -15,7 +18,7 @@ export const BoardListContainer = (): React.ReactNode => {
       <FlexBox justify="flex-start" align="flex-start" gap={16}>
         <BasicButton
           leftSection={<MdAddCircleOutline size={20} />}
-          href="/boards/new"
+          onClick={handlers.open}
         >
           ボードの作成
         </BasicButton>
@@ -25,6 +28,8 @@ export const BoardListContainer = (): React.ReactNode => {
           <BoardsTable boards={boards} isLoading={isLoading} />
         )}
       </FlexBox>
+
+      <EditBoardModal isOpen={isOpen} onClose={handlers.close} />
     </DefaultLayout>
   )
 }
