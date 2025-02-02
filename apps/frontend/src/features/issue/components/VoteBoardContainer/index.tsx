@@ -6,7 +6,7 @@ import { BasicButton } from '~/components/Buttons/BasicButton'
 import { DefaultLayout } from '~/components/Layouts/DefaultLayout'
 import { TitleText } from '~/components/Typography/TitleText'
 import { useBoard } from '~/features/issue/hooks/useBoard'
-import { EditBoardModal } from '~/features/board/components/EditBoardModal'
+import { EditIssueModal } from '~/features/issue/components/EditIssueModal'
 
 type Props = {
   boardId: string
@@ -27,7 +27,13 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
         </BasicButton>
       </FlexBox>
 
-      <EditBoardModal isOpen={isOpen} onClose={handlers.close} />
+      {board && (
+        <EditIssueModal
+          isOpen={isOpen}
+          onClose={handlers.close}
+          board={board}
+        />
+      )}
     </DefaultLayout>
   )
 }

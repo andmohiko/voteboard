@@ -72,7 +72,7 @@ boardRouter.put('/:id', async (c: CustomContext) => {
   return c.json(board)
 })
 
-boardRouter.post('/:id/issue', async (c: CustomContext) => {
+boardRouter.post('/:id/issues', async (c: CustomContext) => {
   const id = c.req.param('id')
   const body = await c.req.json()
   const result = createIssueParamsSchema.safeParse({
@@ -89,7 +89,7 @@ boardRouter.post('/:id/issue', async (c: CustomContext) => {
   return c.json(issue)
 })
 
-boardRouter.put('/:id/issue/:issueId', async (c: CustomContext) => {
+boardRouter.put('/:id/issues/:issueId', async (c: CustomContext) => {
   const issueId = c.req.param('issueId')
   const body = await c.req.json()
   const result = updateIssueParamsSchema.safeParse({
@@ -106,7 +106,7 @@ boardRouter.put('/:id/issue/:issueId', async (c: CustomContext) => {
   return c.json(issue)
 })
 
-boardRouter.delete('/:id/issue/:issueId', async (c: CustomContext) => {
+boardRouter.delete('/:id/issues/:issueId', async (c: CustomContext) => {
   const issueId = c.req.param('issueId')
   const issue = await updateIssueOperation({
     id: issueId,
