@@ -30,3 +30,9 @@ export const issueGenreOptions = [
     value: 'OTHER',
   },
 ]
+
+export const createVoteRequestSchema = z.object({
+  userId: z.string().optional(),
+})
+
+export type CreateVoteInputType = z.infer<typeof createVoteRequestSchema>

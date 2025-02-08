@@ -1,4 +1,5 @@
 import type { BoardWithIssuesWithVoteCount } from '@voteboard/common'
+import type { KeyedMutator } from 'swr'
 import useSWR from 'swr'
 
 import { apiUrl } from '~/lib/api'
@@ -8,15 +9,19 @@ const boardKey = (id: string) => `${apiUrl}/boards/${id}`
 
 export const useBoard = (
   id: string,
-): [BoardWithIssuesWithVoteCount | null, boolean] => {
-  const { data, isLoading } = useSWR<BoardWithIssuesWithVoteCount>(
+): [
+  BoardWithIssuesWithVoteCount | null,
+  boolean,
+  KeyedMutator<BoardWithIssuesWithVoteCount> | null,
+] => {
+  const { data, isLoading, mutate } = useSWR<BoardWithIssuesWithVoteCount>(
     boardKey(id),
     fetcher,
   )
 
   if (!data) {
-    return [null, isLoading]
+    return [null, isLoading, null]
   }
 
-  return [data, isLoading]
+  return [data, isLoading, mutate]
 }

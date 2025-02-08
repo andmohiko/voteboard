@@ -5,22 +5,34 @@ import type {
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
-  IoChevronUpCircleOutline,
+  IoRocketOutline,
 } from 'react-icons/io5'
+import { Loader } from '@mantine/core'
+import type { KeyedMutator } from 'swr'
 
 import styles from './style.module.css'
 
+import { useVoteMutation } from '~/features/issue/hooks/useVoteMutation'
 import { FlexBox } from '~/components/Base/FlexBox'
 import { TitleText } from '~/components/Typography/TitleText'
 import { GridLayout } from '~/components/Base/GridLayout'
 import { IconButton } from '~/components/Buttons/IconButton'
+import { BaseText } from '~/components/Typography/BaseText'
+import { useToast } from '~/hooks/useToast'
 
 type Props = {
   board: BoardWithIssuesWithVoteCount
   isLoading: boolean
+  mutate: KeyedMutator<BoardWithIssuesWithVoteCount>
 }
 
-export const KanbanBoard = ({ board, isLoading }: Props): React.ReactNode => {
+export const KanbanBoard = ({
+  board,
+  isLoading,
+  mutate,
+}: Props): React.ReactNode => {
+  const { showErrorToast } = useToast()
+  const { onAddVote } = useVoteMutation()
   const backlogIssues = board.issues.filter(
     (issue) => issue.status === 'BACKLOG',
   )
@@ -28,43 +40,61 @@ export const KanbanBoard = ({ board, isLoading }: Props): React.ReactNode => {
     (issue) => issue.status === 'IN_PROGRESS',
   )
   const doneIssues = board.issues.filter((issue) => issue.status === 'DONE')
-  const onVote = () => {
-    console.log('vote')
+  const onVote = async (issue: IssueWithVoteCount) => {
+    try {
+      await onAddVote(issue)
+      await mutate()
+    } catch (error) {
+      console.error(error)
+      showErrorToast('投票に失敗しました')
+    }
   }
-  const onMove = () => {
-    console.log('move')
+  const onMove = (issue: IssueWithVoteCount) => {
+    console.log('move', issue)
   }
   return (
     <GridLayout gridTemplateColumns="1fr 1fr 1fr" gap={16}>
       <KanbanColumn title="バックログ">
-        {backlogIssues.map((issue) => (
-          <KanbanCard
-            key={issue.id}
-            issue={issue}
-            onVote={onVote}
-            onMove={onMove}
-          />
-        ))}
+        {isLoading ? (
+          <Loader color="#323232" type="dots" />
+        ) : (
+          backlogIssues.map((issue) => (
+            <KanbanCard
+              key={issue.id}
+              issue={issue}
+              onVote={onVote}
+              onMove={onMove}
+            />
+          ))
+        )}
       </KanbanColumn>
       <KanbanColumn title="進行中">
-        {inProgressIssues.map((issue) => (
-          <KanbanCard
-            key={issue.id}
-            issue={issue}
-            onVote={onVote}
-            onMove={onMove}
-          />
-        ))}
+        {isLoading ? (
+          <Loader color="#323232" type="dots" />
+        ) : (
+          inProgressIssues.map((issue) => (
+            <KanbanCard
+              key={issue.id}
+              issue={issue}
+              onVote={onVote}
+              onMove={onMove}
+            />
+          ))
+        )}
       </KanbanColumn>
       <KanbanColumn title="リリース済み">
-        {doneIssues.map((issue) => (
-          <KanbanCard
-            key={issue.id}
-            issue={issue}
-            onVote={onVote}
-            onMove={onMove}
-          />
-        ))}
+        {isLoading ? (
+          <Loader color="#323232" type="dots" />
+        ) : (
+          doneIssues.map((issue) => (
+            <KanbanCard
+              key={issue.id}
+              issue={issue}
+              onVote={onVote}
+              onMove={onMove}
+            />
+          ))
+        )}
       </KanbanColumn>
     </GridLayout>
   )
@@ -105,20 +135,24 @@ export const KanbanCard = ({
       <p className={styles.title}>{issue.title}</p>
       <p className={styles.description}>{issue.description}</p>
       <FlexBox direction="row" justify="space-between" gap={8}>
-        <IconButton
-          icon={<IoChevronUpCircleOutline size={18} />}
-          onClick={() => onVote && onVote(issue)}
-        />
+        <FlexBox direction="row" justify="flex-start" gap={8}>
+          <IconButton
+            icon={<IoRocketOutline size={18} />}
+            onClick={() => onVote && onVote(issue)}
+            importance="secondary"
+          />
+          <BaseText>{`${issue.voteCount}票`}</BaseText>
+        </FlexBox>
         <FlexBox direction="row" justify="flex-end" gap={8}>
           <IconButton
             icon={<IoChevronBackOutline size={18} />}
             onClick={() => onMove && onMove(issue)}
-            importance="secondary"
+            importance="tertiary"
           />
           <IconButton
             icon={<IoChevronForwardOutline size={18} />}
             onClick={() => onMove && onMove(issue)}
-            importance="secondary"
+            importance="tertiary"
           />
         </FlexBox>
       </FlexBox>

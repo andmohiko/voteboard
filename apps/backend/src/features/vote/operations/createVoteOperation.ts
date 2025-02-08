@@ -23,14 +23,14 @@ export const createVoteOperation = async (
       },
       user: {
         connect: {
-          id: params.userId,
+          uid: params.userId,
         },
       },
-      externalAuthor: {
-        connect: {
-          id: params.externalAuthorId,
-        },
-      },
+      // externalAuthor: {
+      //   connect: {
+      //     id: params.externalAuthorId,
+      //   },
+      // },
     },
   })
   const vote: Vote = {
