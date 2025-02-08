@@ -7,6 +7,7 @@ import { DefaultLayout } from '~/components/Layouts/DefaultLayout'
 import { TitleText } from '~/components/Typography/TitleText'
 import { useBoard } from '~/features/issue/hooks/useBoard'
 import { EditIssueModal } from '~/features/issue/components/EditIssueModal'
+import { KanbanBoard } from '~/features/issue/components/KanbanBoard'
 
 type Props = {
   boardId: string
@@ -25,6 +26,7 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
         >
           チケットの作成
         </BasicButton>
+        {board && <KanbanBoard board={board} isLoading={isLoading} />}
       </FlexBox>
 
       {board && (
