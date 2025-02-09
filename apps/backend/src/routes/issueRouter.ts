@@ -8,8 +8,9 @@ import { deleteVoteOperation } from '~/features/vote/operations/deleteVoteOperat
 import type { CustomContext, CustomEnv } from '~/types/locals'
 
 const issueRouter = new Hono<CustomEnv>()
+const nonAuthIssueRouter = new Hono<CustomEnv>()
 
-issueRouter.post('/:id/vote', async (c: CustomContext) => {
+nonAuthIssueRouter.post('/:id/vote', async (c: CustomContext) => {
   const id = c.req.param('id')
   const body = await c.req.json()
   const result = createVoteParamsSchema.safeParse({
@@ -35,4 +36,4 @@ issueRouter.delete('/:id/vote/:voteId', async (c: CustomContext) => {
   return c.json(vote)
 })
 
-export { issueRouter }
+export { issueRouter, nonAuthIssueRouter }

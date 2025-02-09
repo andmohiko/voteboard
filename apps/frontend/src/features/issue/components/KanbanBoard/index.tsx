@@ -26,12 +26,14 @@ type Props = {
   board: BoardWithIssuesWithVoteCount
   isLoading: boolean
   mutate: KeyedMutator<BoardWithIssuesWithVoteCount>
+  canEditBoard: boolean
 }
 
 export const KanbanBoard = ({
   board,
   isLoading,
   mutate,
+  canEditBoard,
 }: Props): React.ReactNode => {
   const { showErrorToast } = useToast()
   const { onAddVote } = useVoteMutation()
@@ -72,7 +74,9 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMoveForward={() => onMove(issue, 'IN_PROGRESS')}
+              onMoveForward={
+                canEditBoard ? () => onMove(issue, 'IN_PROGRESS') : undefined
+              }
             />
           ))
         )}
@@ -86,8 +90,12 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMoveForward={() => onMove(issue, 'DONE')}
-              onMoveBackward={() => onMove(issue, 'BACKLOG')}
+              onMoveForward={
+                canEditBoard ? () => onMove(issue, 'DONE') : undefined
+              }
+              onMoveBackward={
+                canEditBoard ? () => onMove(issue, 'BACKLOG') : undefined
+              }
             />
           ))
         )}
@@ -101,7 +109,9 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMoveBackward={() => onMove(issue, 'IN_PROGRESS')}
+              onMoveBackward={
+                canEditBoard ? () => onMove(issue, 'IN_PROGRESS') : undefined
+              }
             />
           ))
         )}

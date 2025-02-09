@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { apiUrl } from '~/lib/api'
 import { supabase } from '~/lib/supabase'
 
-const usersKey = `${apiUrl}/users`
+const registerKey = `${apiUrl}/auth/register`
 
 export const useSignUp = () => {
   const { push } = useRouter()
@@ -23,7 +23,7 @@ export const useSignUp = () => {
       throw new Error('ユーザー情報の取得に失敗しました')
     }
 
-    const res = await fetch(usersKey, {
+    const res = await fetch(registerKey, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,9 +1,5 @@
 import { Hono } from 'hono'
 
-import {
-  createUserOperation,
-  createUserParamsSchema,
-} from '~/features/user/operations/createUserOperation'
 import { findUserByIdOperation } from '~/features/user/operations/findUserByIdOperation'
 import {
   updateUserOperation,
@@ -13,15 +9,8 @@ import type { CustomContext, CustomEnv } from '~/types/locals'
 
 const userRouter = new Hono<CustomEnv>()
 
-userRouter.get('/', async (c: CustomContext) => {
-  const user = {
-    id: 'sampleId',
-  }
-  const data = await findUserByIdOperation({ id: user.id })
-  if (!data) {
-    return c.text('User not found', 404)
-  }
-
+userRouter.get('/', (c: CustomContext) => {
+  const data = c.get('user')
   return c.json(data)
 })
 
@@ -33,22 +22,6 @@ userRouter.get('/:id', async (c: CustomContext) => {
   }
 
   return c.json(data)
-})
-
-userRouter.post('/', async (c: CustomContext) => {
-  const body = await c.req.json()
-  const result = createUserParamsSchema.safeParse({
-    ...body,
-    companyId: process.env.COMPANY_ID!,
-  })
-
-  if (!result.success) {
-    return c.json(result.error, 400)
-  }
-
-  const user = await createUserOperation(result.data)
-
-  return c.json(user)
 })
 
 userRouter.put('/:id', async (c: CustomContext) => {

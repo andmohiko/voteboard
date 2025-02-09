@@ -15,7 +15,8 @@ type Props = {
 
 export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
   const [isOpen, handlers] = useDisclosure()
-  const [board, isLoading, mutate] = useBoard(boardId)
+  const { board, isLoading, mutate, canEditBoard } = useBoard(boardId)
+  console.log('board', board)
   return (
     <DefaultLayout>
       <TitleText>要望ボード</TitleText>
@@ -27,7 +28,12 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
           チケットの作成
         </BasicButton>
         {board && mutate && (
-          <KanbanBoard board={board} isLoading={isLoading} mutate={mutate} />
+          <KanbanBoard
+            board={board}
+            isLoading={isLoading}
+            mutate={mutate}
+            canEditBoard={canEditBoard}
+          />
         )}
       </FlexBox>
 

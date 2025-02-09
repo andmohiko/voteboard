@@ -21,6 +21,7 @@ import {
 import type { CustomContext, CustomEnv } from '~/types/locals'
 
 const boardRouter = new Hono<CustomEnv>()
+const nonAuthBoardRouter = new Hono<CustomEnv>()
 
 boardRouter.get('/', async (c: CustomContext) => {
   const boards = await findBoardsByCompanyIdOperation({
@@ -29,7 +30,7 @@ boardRouter.get('/', async (c: CustomContext) => {
   return c.json(boards)
 })
 
-boardRouter.get('/:id', async (c: CustomContext) => {
+nonAuthBoardRouter.get('/:id', async (c: CustomContext) => {
   const id = c.req.param('id')
   const data = await findBoardByIdOperation({ id })
   if (!data) {
@@ -72,7 +73,7 @@ boardRouter.put('/:id', async (c: CustomContext) => {
   return c.json(board)
 })
 
-boardRouter.post('/:id/issues', async (c: CustomContext) => {
+nonAuthBoardRouter.post('/:id/issues', async (c: CustomContext) => {
   const id = c.req.param('id')
   const body = await c.req.json()
   const result = createIssueParamsSchema.safeParse({
@@ -116,4 +117,4 @@ boardRouter.delete('/:id/issues/:issueId', async (c: CustomContext) => {
   return c.json(issue)
 })
 
-export { boardRouter }
+export { boardRouter, nonAuthBoardRouter }
