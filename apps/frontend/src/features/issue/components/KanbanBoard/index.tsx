@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import type {
   BoardWithIssuesWithVoteCount,
   IssueStatus,
@@ -21,6 +22,7 @@ import { IconButton } from '~/components/Buttons/IconButton'
 import { BaseText } from '~/components/Typography/BaseText'
 import { useToast } from '~/hooks/useToast'
 import { useIssueStatusMutation } from '~/features/issue/hooks/useIssueStatusMutation'
+import { IssueGenreBadge } from '~/components/Displays/IssueGenreBadge'
 
 type Props = {
   board: BoardWithIssuesWithVoteCount
@@ -38,13 +40,15 @@ export const KanbanBoard = ({
   const { showErrorToast } = useToast()
   const { onAddVote } = useVoteMutation()
   const { onMoveIssue } = useIssueStatusMutation(board.id)
-  const backlogIssues = board.issues.filter(
-    (issue) => issue.status === 'BACKLOG',
-  )
-  const inProgressIssues = board.issues.filter(
-    (issue) => issue.status === 'IN_PROGRESS',
-  )
-  const doneIssues = board.issues.filter((issue) => issue.status === 'DONE')
+  const backlogIssues = board.issues
+    .filter((issue) => issue.status === 'BACKLOG')
+    .sort((a, b) => b.voteCount - a.voteCount)
+  const inProgressIssues = board.issues
+    .filter((issue) => issue.status === 'IN_PROGRESS')
+    .sort((a, b) => b.voteCount - a.voteCount)
+  const doneIssues = board.issues
+    .filter((issue) => issue.status === 'DONE')
+    .sort((a, b) => b.voteCount - a.voteCount)
   const onVote = async (issue: IssueWithVoteCount) => {
     try {
       await onAddVote(issue)
@@ -154,7 +158,13 @@ export const KanbanCard = ({
 }: KanbanCardProps): React.ReactNode => {
   return (
     <div className={styles.card}>
-      <p className={styles.title}>{issue.title}</p>
+      <FlexBox direction="row" justify="space-between">
+        <p className={styles.title}>{issue.title}</p>
+        <IssueGenreBadge genre={issue.genre} />
+      </FlexBox>
+      <BaseText size="xs" color="gray">
+        {dayjs(issue.createdAt).format('YYYY/MM/DD')}
+      </BaseText>
       <p className={styles.description}>{issue.description}</p>
       <FlexBox direction="row" justify="space-between" gap={8}>
         <FlexBox direction="row" justify="flex-start" gap={8}>

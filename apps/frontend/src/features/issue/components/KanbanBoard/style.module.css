@@ -33,6 +33,7 @@
 
   .description {
     color: var(--color-gray700);
+    line-height: 1.5;
   }
 
   .emptyButton {
