@@ -16,7 +16,6 @@ type Props = {
 export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
   const [isOpen, handlers] = useDisclosure()
   const { board, isLoading, mutate, canEditBoard } = useBoard(boardId)
-  console.log('board', board)
   return (
     <DefaultLayout>
       <TitleText>要望ボード</TitleText>
@@ -37,11 +36,12 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
         )}
       </FlexBox>
 
-      {board && (
+      {board && mutate && (
         <EditIssueModal
           isOpen={isOpen}
           onClose={handlers.close}
           board={board}
+          mutate={mutate}
         />
       )}
     </DefaultLayout>

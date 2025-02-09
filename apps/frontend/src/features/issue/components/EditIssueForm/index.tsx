@@ -2,6 +2,7 @@ import { Select, Textarea, TextInput } from '@mantine/core'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type BoardWithIssuesWithVoteCount } from '@voteboard/common'
+import type { KeyedMutator } from 'swr'
 
 import styles from './style.module.css'
 
@@ -17,9 +18,14 @@ import { errorMessage } from '~/utils/errorMessage'
 type Props = {
   onClose: () => void
   board: BoardWithIssuesWithVoteCount
+  mutate: KeyedMutator<BoardWithIssuesWithVoteCount>
 }
 
-export const EditIssueForm = ({ onClose, board }: Props): React.ReactNode => {
+export const EditIssueForm = ({
+  onClose,
+  board,
+  mutate,
+}: Props): React.ReactNode => {
   const { showSuccessToast, showErrorToast } = useToast()
   const { startLoading, stopLoading } = useLoadingContext()
   const { createIssue } = useCreateIssue(board.id)
@@ -43,6 +49,7 @@ export const EditIssueForm = ({ onClose, board }: Props): React.ReactNode => {
     try {
       await createIssue(data)
       showSuccessToast('チケットを作成しました')
+      await mutate()
       onClose()
     } catch (error) {
       showErrorToast('チケットの作成に失敗しました', errorMessage(error))

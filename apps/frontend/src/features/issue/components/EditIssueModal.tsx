@@ -1,4 +1,5 @@
 import type { BoardWithIssuesWithVoteCount, Issue } from '@voteboard/common'
+import type { KeyedMutator } from 'swr'
 
 import { BaseModal } from '~/components/Modals/BaseModal'
 import { EditIssueForm } from '~/features/issue/components/EditIssueForm'
@@ -8,6 +9,7 @@ type Props = {
   onClose: () => void
   board: BoardWithIssuesWithVoteCount
   issue?: Issue
+  mutate: KeyedMutator<BoardWithIssuesWithVoteCount>
 }
 
 export const EditIssueModal = ({
@@ -15,6 +17,7 @@ export const EditIssueModal = ({
   onClose,
   board,
   issue,
+  mutate,
 }: Props): React.ReactNode => {
   return (
     <BaseModal
@@ -22,7 +25,7 @@ export const EditIssueModal = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-      <EditIssueForm onClose={onClose} board={board} />
+      <EditIssueForm onClose={onClose} board={board} mutate={mutate} />
     </BaseModal>
   )
 }
