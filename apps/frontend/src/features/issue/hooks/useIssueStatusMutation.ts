@@ -13,13 +13,13 @@ export const useIssueStatusMutation = (boardId: string) => {
     issue: IssueWithVoteCount,
     status: IssueStatus,
   ): Promise<void> => {
+    if (!session) {
+      throw new Error('再度ログインしてください')
+    }
     const parsedData = updateIssueStatusRequestSchema.safeParse({
       id: issue.id,
       status,
     })
-    if (!session) {
-      throw new Error('再度ログインしてください')
-    }
     if (!parsedData.success) {
       console.error('Error:', parsedData.error)
       throw new Error('ステータスの変更に失敗しました')

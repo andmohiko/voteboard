@@ -9,7 +9,7 @@ import {
   IoChevronForwardOutline,
   IoRocketOutline,
 } from 'react-icons/io5'
-import { Loader } from '@mantine/core'
+import { Button, Loader } from '@mantine/core'
 import type { KeyedMutator } from 'swr'
 
 import styles from './style.module.css'
@@ -168,12 +168,17 @@ export const KanbanCard = ({
       <p className={styles.description}>{issue.description}</p>
       <FlexBox direction="row" justify="space-between" gap={8}>
         <FlexBox direction="row" justify="flex-start" gap={8}>
-          <IconButton
-            icon={<IoRocketOutline size={18} />}
+          <Button
+            color="blue"
+            leftSection={<IoRocketOutline size={18} />}
             onClick={() => onVote && onVote(issue)}
-            importance="secondary"
-          />
-          <BaseText>{`${issue.voteCount}票`}</BaseText>
+            size="compact-md"
+          >
+            <BaseText
+              weight="bold"
+              color="white"
+            >{`${issue.voteCount}票`}</BaseText>
+          </Button>
         </FlexBox>
         <FlexBox direction="row" justify="flex-end" gap={8}>
           {onMoveBackward && (

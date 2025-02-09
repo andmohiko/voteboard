@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'localhost') {
 app.route('/auth', authRouter)
 app.route('/boards', nonAuthBoardRouter)
 app.route('/issues', nonAuthIssueRouter)
+app.route('/companies', companyRouter)
 
 app.use('*', authGuardMiddleware)
 app.use('*', userMiddleware)
@@ -35,7 +36,6 @@ app.use('*', userMiddleware)
 app.route('/users', userRouter)
 app.route('/boards', boardRouter)
 app.route('/issues', issueRouter)
-app.route('/companies', companyRouter)
 
 app.onError((e, c: CustomContext) => {
   console.error('Error:', e)
