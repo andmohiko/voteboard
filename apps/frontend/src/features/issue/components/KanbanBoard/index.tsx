@@ -1,5 +1,6 @@
 import type {
   BoardWithIssuesWithVoteCount,
+  IssueStatus,
   IssueWithVoteCount,
 } from '@voteboard/common'
 import {
@@ -19,6 +20,7 @@ import { GridLayout } from '~/components/Base/GridLayout'
 import { IconButton } from '~/components/Buttons/IconButton'
 import { BaseText } from '~/components/Typography/BaseText'
 import { useToast } from '~/hooks/useToast'
+import { useIssueStatusMutation } from '~/features/issue/hooks/useIssueStatusMutation'
 
 type Props = {
   board: BoardWithIssuesWithVoteCount
@@ -33,6 +35,7 @@ export const KanbanBoard = ({
 }: Props): React.ReactNode => {
   const { showErrorToast } = useToast()
   const { onAddVote } = useVoteMutation()
+  const { onMoveIssue } = useIssueStatusMutation(board.id)
   const backlogIssues = board.issues.filter(
     (issue) => issue.status === 'BACKLOG',
   )
@@ -49,8 +52,14 @@ export const KanbanBoard = ({
       showErrorToast('投票に失敗しました')
     }
   }
-  const onMove = (issue: IssueWithVoteCount) => {
-    console.log('move', issue)
+  const onMove = async (issue: IssueWithVoteCount, status: IssueStatus) => {
+    try {
+      await onMoveIssue(issue, status)
+      await mutate()
+    } catch (error) {
+      console.error(error)
+      showErrorToast('チケットの移動に失敗しました')
+    }
   }
   return (
     <GridLayout gridTemplateColumns="1fr 1fr 1fr" gap={16}>
@@ -63,7 +72,7 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMove={onMove}
+              onMoveForward={() => onMove(issue, 'IN_PROGRESS')}
             />
           ))
         )}
@@ -77,7 +86,8 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMove={onMove}
+              onMoveForward={() => onMove(issue, 'DONE')}
+              onMoveBackward={() => onMove(issue, 'BACKLOG')}
             />
           ))
         )}
@@ -91,7 +101,7 @@ export const KanbanBoard = ({
               key={issue.id}
               issue={issue}
               onVote={onVote}
-              onMove={onMove}
+              onMoveBackward={() => onMove(issue, 'IN_PROGRESS')}
             />
           ))
         )}
@@ -122,13 +132,15 @@ export const KanbanColumn = ({
 type KanbanCardProps = {
   issue: IssueWithVoteCount
   onVote?: (issue: IssueWithVoteCount) => void
-  onMove?: (issue: IssueWithVoteCount) => void
+  onMoveForward?: (issue: IssueWithVoteCount) => void
+  onMoveBackward?: (issue: IssueWithVoteCount) => void
 }
 
 export const KanbanCard = ({
   issue,
   onVote,
-  onMove,
+  onMoveForward,
+  onMoveBackward,
 }: KanbanCardProps): React.ReactNode => {
   return (
     <div className={styles.card}>
@@ -144,16 +156,22 @@ export const KanbanCard = ({
           <BaseText>{`${issue.voteCount}票`}</BaseText>
         </FlexBox>
         <FlexBox direction="row" justify="flex-end" gap={8}>
-          <IconButton
-            icon={<IoChevronBackOutline size={18} />}
-            onClick={() => onMove && onMove(issue)}
-            importance="tertiary"
-          />
-          <IconButton
-            icon={<IoChevronForwardOutline size={18} />}
-            onClick={() => onMove && onMove(issue)}
-            importance="tertiary"
-          />
+          {onMoveBackward && (
+            <IconButton
+              icon={<IoChevronBackOutline size={18} />}
+              onClick={() => onMoveBackward(issue)}
+              importance="tertiary"
+            />
+          )}
+          {onMoveForward ? (
+            <IconButton
+              icon={<IoChevronForwardOutline size={18} />}
+              onClick={() => onMoveForward(issue)}
+              importance="tertiary"
+            />
+          ) : (
+            <div className={styles.emptyButton} />
+          )}
         </FlexBox>
       </FlexBox>
     </div>

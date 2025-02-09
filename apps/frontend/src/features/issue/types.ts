@@ -31,6 +31,15 @@ export const issueGenreOptions = [
   },
 ]
 
+export const updateIssueStatusRequestSchema = z.object({
+  id: z.string(),
+  status: issueStatusSchema,
+})
+
+export type UpdateIssueStatusInputType = z.infer<
+  typeof updateIssueStatusRequestSchema
+>
+
 export const createVoteRequestSchema = z.object({
   userId: z.string().optional(),
 })
