@@ -41,7 +41,7 @@ export type UpdateIssueStatusInputType = z.infer<
 >
 
 export const createVoteRequestSchema = z.object({
-  userId: z.string().optional(),
+  uid: z.string().optional(),
 })
 
 export type CreateVoteInputType = z.infer<typeof createVoteRequestSchema>

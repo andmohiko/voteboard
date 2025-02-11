@@ -5,7 +5,7 @@ import { prismaClient } from '~/lib/prisma'
 
 export const createVoteParamsSchema = z.object({
   issueId: z.string(),
-  userId: z.string().optional(),
+  uid: z.string().optional(),
   externalAuthorId: z.string().optional(),
 })
 
@@ -23,7 +23,7 @@ export const createVoteOperation = async (
       },
       user: {
         connect: {
-          uid: params.userId,
+          uid: params.uid,
         },
       },
       // externalAuthor: {

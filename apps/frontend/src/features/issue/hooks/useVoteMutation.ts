@@ -14,7 +14,7 @@ export const useVoteMutation = () => {
       throw new Error('再度ログインしてください')
     }
     const parsedData = createVoteRequestSchema.safeParse({
-      userId: user.id,
+      uid: user.id,
     })
     if (!parsedData.success) {
       console.error(parsedData.error.errors)
