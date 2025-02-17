@@ -11,7 +11,7 @@ import { authGuardMiddleware } from '~/middlewares/authGuardMiddleware'
 import { userMiddleware } from '~/middlewares/userMiddleware'
 import { authRouter } from '~/routes/authRouter'
 
-const port = 4000
+const port = Number(process.env.PORT) || 8080
 const app = new Hono<CustomEnv>()
 
 app.use(cors())
