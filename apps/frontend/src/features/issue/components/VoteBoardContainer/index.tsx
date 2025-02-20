@@ -8,6 +8,8 @@ import { TitleText } from '~/components/Typography/TitleText'
 import { useBoard } from '~/features/issue/hooks/useBoard'
 import { EditIssueModal } from '~/features/issue/components/EditIssueModal'
 import { KanbanBoard } from '~/features/issue/components/KanbanBoard'
+import { PleaseLoginModal } from '~/features/issue/components/PleaseLoginModal'
+import { useAuthContext } from '~/providers/AuthProvider'
 
 type Props = {
   boardId: string
@@ -15,6 +17,9 @@ type Props = {
 
 export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
   const [isOpen, handlers] = useDisclosure()
+  const [isOpenLoginModal, loginModalHandlers] = useDisclosure()
+  const { user } = useAuthContext()
+  const pleaseLogin = () => loginModalHandlers.open()
   const { board, isLoading, mutate, canEditBoard } = useBoard(boardId)
   return (
     <DefaultLayout>
@@ -22,7 +27,7 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
       <FlexBox justify="flex-start" align="flex-start" gap={16}>
         <BasicButton
           leftSection={<MdAddCircleOutline size={20} />}
-          onClick={handlers.open}
+          onClick={user ? handlers.open : pleaseLogin}
         >
           チケットの作成
         </BasicButton>
@@ -32,6 +37,7 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
             isLoading={isLoading}
             mutate={mutate}
             canEditBoard={canEditBoard}
+            pleaseLogin={pleaseLogin}
           />
         )}
       </FlexBox>
@@ -44,6 +50,11 @@ export const VoteBoardContainer = ({ boardId }: Props): React.ReactNode => {
           mutate={mutate}
         />
       )}
+
+      <PleaseLoginModal
+        isOpen={isOpenLoginModal}
+        onClose={loginModalHandlers.close}
+      />
     </DefaultLayout>
   )
 }

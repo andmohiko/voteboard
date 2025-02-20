@@ -23,12 +23,14 @@ import { BaseText } from '~/components/Typography/BaseText'
 import { useToast } from '~/hooks/useToast'
 import { useIssueStatusMutation } from '~/features/issue/hooks/useIssueStatusMutation'
 import { IssueGenreBadge } from '~/components/Displays/IssueGenreBadge'
+import { useAuthContext } from '~/providers/AuthProvider'
 
 type Props = {
   board: BoardWithIssuesWithVoteCount
   isLoading: boolean
   mutate: KeyedMutator<BoardWithIssuesWithVoteCount>
   canEditBoard: boolean
+  pleaseLogin: () => void
 }
 
 export const KanbanBoard = ({
@@ -36,7 +38,9 @@ export const KanbanBoard = ({
   isLoading,
   mutate,
   canEditBoard,
+  pleaseLogin,
 }: Props): React.ReactNode => {
+  const { user } = useAuthContext()
   const { showErrorToast } = useToast()
   const { onAddVote } = useVoteMutation()
   const { onMoveIssue } = useIssueStatusMutation(board.id)
@@ -50,6 +54,10 @@ export const KanbanBoard = ({
     .filter((issue) => issue.status === 'DONE')
     .sort((a, b) => b.voteCount - a.voteCount)
   const onVote = async (issue: IssueWithVoteCount) => {
+    if (!user) {
+      pleaseLogin()
+      return
+    }
     try {
       await onAddVote(issue)
       await mutate()

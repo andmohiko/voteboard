@@ -14,7 +14,7 @@ import { useLoadingContext } from '~/providers/LoadingProvider'
 import { useSignUp } from '~/features/auth/hooks/useSignUp'
 
 export const SignUpForm = (): React.ReactNode => {
-  const { showErrorToast } = useToast()
+  const { showErrorToast, showSuccessToast } = useToast()
   const { signUp } = useSignUp()
   const { startLoading, stopLoading } = useLoadingContext()
   const {
@@ -40,6 +40,7 @@ export const SignUpForm = (): React.ReactNode => {
       }
 
       await signUp(data.email, data.password)
+      showSuccessToast('メールで認証してください')
     } catch (e) {
       showErrorToast(errorMessage(e))
     } finally {
