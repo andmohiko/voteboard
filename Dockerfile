@@ -1,6 +1,5 @@
 ## ベースイメージの指定（Node.js 20）
 FROM node:20-alpine AS base
-
 # 必要なパッケージをインストール
 RUN apk add --no-cache libc6-compat bash git && npm install -g pnpm@8.15.9 
 
@@ -10,11 +9,9 @@ WORKDIR /app
 COPY . ./
 # 依存関係をインストール（ワークスペース全体を考慮）
 RUN pnpm install --frozen-lockfile
-
 WORKDIR /app/apps/backend
 # backendの依存関係をインストール
 RUN pnpm install --frozen-lockfile
-
 # backendをビルド
 RUN pnpm build 
 # Prismaのスキーマを生成
