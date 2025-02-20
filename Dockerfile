@@ -10,8 +10,6 @@ COPY . ./
 # 依存関係をインストール（ワークスペース全体を考慮）
 RUN pnpm install --frozen-lockfile
 WORKDIR /app/apps/backend
-# backendの依存関係をインストール
-RUN pnpm install --frozen-lockfile
 # backendをビルド
 RUN pnpm build 
 # Prismaのスキーマを生成
