@@ -1,8 +1,11 @@
 import type { ReactNode } from 'react'
 import { createContext, useState, useContext, useEffect } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
+import { useRouter } from 'next/router'
 
 import { supabase } from '~/lib/supabase'
+
+export const authPaths = ['/']
 
 const AuthContext = createContext<{
   session: Session | null
@@ -17,6 +20,7 @@ const AuthContext = createContext<{
 const AuthProvider = ({ children }: { children: ReactNode }): ReactNode => {
   const [session, setSession] = useState<Session | null>(null)
   const [user, setUser] = useState<User | null | undefined>(undefined)
+  const { pathname, push } = useRouter()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -34,11 +38,16 @@ const AuthProvider = ({ children }: { children: ReactNode }): ReactNode => {
 
     // 認証状態の変更を監視
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         // eslint-disable-next-line no-console
         console.log(`Auth state changed: ${event}`)
         setSession(session)
         setUser(session?.user ?? null)
+
+        // 未ログイン時にログイン必須のパスにアクセスした場合はリダイレクト
+        if (!session && authPaths.includes(pathname)) {
+          await push('/login')
+        }
       },
     )
 
